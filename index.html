@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTM, GA4 & GAM Implementation Tester</title>
+
+    <!-- DataLayer Initialization -->
+    <!-- A parte de Inicialização do DataLayer deve vir antes do Google Tag Manager -->
+    <script>
+        // Teste de comentário dentro de js
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date()); // isso tem a ver com não precisar usar o GTM
+    </script>
+
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-N5HJW2WW');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google Publisher Tag (GPT) -->
+    <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+    <script>
+        window.googletag = window.googletag || { cmd: [] };
+        googletag.cmd.push(function () {
+            // Leaderboard Ad Slot
+            googletag.defineSlot('/123456/teste_ad', [728, 90], 'div-gpt-ad-leaderboard').addService(googletag.pubads());
+            // Medium Rectangle Ad Slot
+            googletag.defineSlot('/123456/teste_ad', [300, 250], 'div-gpt-ad-rectangle').addService(googletag.pubads());
+
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent-primary: #38bdf8;
+            --accent-secondary: #818cf8;
+            --button-hover: #0ea5e9;
+            --console-bg: #000000;
+            --console-text: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .ad-slot {
+            margin: 20px auto;
+            background-color: var(--card-bg);
+            border: 1px dashed #475569;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #64748b;
+            font-size: 0.8rem;
+            position: relative;
+        }
+
+        #div-gpt-ad-leaderboard {
+            width: 728px;
+            height: 90px;
+        }
+
+        #div-gpt-ad-rectangle {
+            width: 300px;
+            height: 250px;
+        }
+
+        .ad-slot::before {
+            content: 'Ad Placeholder';
+            position: absolute;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .events-panel {
+            background-color: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        button {
+            background-color: var(--accent-primary);
+            color: #0f172a;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .console-panel {
+            background-color: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #dataLayerConsole {
+            background-color: var(--console-bg);
+            color: var(--console-text);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #334155;
+        }
+
+        .label {
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 40px 0;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N5HJW2WW" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="container">
+        <header>
+            <h1>Ads & Tags Tester</h1>
+            <p>Test GTM, GA4 Events, and Google Ad Manager slots in a single environment.</p>
+        </header>
+
+        <!-- Top Leaderboard Ad -->
+        <div id="div-gpt-ad-leaderboard" class="ad-slot">
+            <script>
+                googletag.cmd.push(function () { googletag.display('div-gpt-ad-leaderboard'); });
+            </script>
+        </div>
+
+        <div class="dashboard">
+            <div class="events-panel">
+                <div class="label">Trigger GA4 Events</div>
+                <div class="btn-group">
+                    <button id="btn-add-to-cart">Add to Cart</button>
+                    <button id="btn-generate-lead">Generate Lead</button>
+                    <button id="btn-login">Login</button>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <div class="label">Medium Rectangle Ad</div>
+                    <div id="div-gpt-ad-rectangle" class="ad-slot">
+                        <script>
+                            googletag.cmd.push(function () { googletag.display('div-gpt-ad-rectangle'); });
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+            <div class="console-panel">
+                <div class="label">Live DataLayer Console</div>
+                <div id="dataLayerConsole">{ "info": "Click a button to push dataLayer events" }</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Placeholder configuration: GTM-XXXXXX | GAM: /123456/teste_ad</p>
+        </footer>
+    </div>
+
+    <script>
+        const consoleEl = document.getElementById('dataLayerConsole');
+
+        function updateVisualConsole() {
+            // We slice to show the latest entries or the full array
+            // dataLayer often contains many internal GTM objects, so we filter or just show the whole thing
+            consoleEl.textContent = JSON.stringify(window.dataLayer, null, 2);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        // Event: Add to Cart
+        document.getElementById('btn-add-to-cart').addEventListener('click', () => {
+            const eventData = {
+                event: 'add_to_cart',
+                ecommerce: {
+                    currency: 'USD',
+                    value: 29.99,
+                    items: [{
+                        item_id: 'SKU_12345',
+                        item_name: 'Premium T-Shirt',
+                        price: 29.99,
+                        quantity: 1
+                    }]
+                }
+            };
+            window.dataLayer.push(eventData);
+            updateVisualConsole();
+        });
+
+        // Event: Generate Lead
+        document.getElementById('btn-generate-lead').addEventListener('click', () => {
+            const eventData = {
+                event: 'generate_lead',
+                lead_type: 'newsletter_signup',
+                page_location: window.location.href
+            };
+            window.dataLayer.push(eventData);
+            updateVisualConsole();
+        });
+
+        // Event: Login
+        document.getElementById('btn-login').addEventListener('click', () => {
+            const eventData = {
+                event: 'login',
+                method: 'google',
+                user_id: 'user_' + Math.floor(Math.random() * 1000000)
+            };
+            window.dataLayer.push(eventData);
+            updateVisualConsole();
+        });
+
+        // Initial console load
+        updateVisualConsole();
+    </script>
+</body>
+
+</html>
